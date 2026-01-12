@@ -8,8 +8,14 @@ import { LocationSearch } from "../components/Search/LocationSearch";
 export default function HomePage() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
+
 
   const handleLocation = async (lat: number, lng: number) => {
+    setSelectedLocation({ lat, lng });
     setData(null);
     setLoading(true);
 
@@ -40,11 +46,11 @@ export default function HomePage() {
 
       <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-          
+
           {/* ================= MAP SECTION ================= */}
           <section className="lg:col-span-7 flex flex-col gap-4">
             <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-200 overflow-hidden flex flex-col">
-              
+
               {/* Map Controls Header */}
               <div className="p-4 lg:p-6 border-b border-slate-100">
                 <div className="flex flex-col gap-4">
@@ -71,7 +77,10 @@ export default function HomePage() {
 
               {/* Map Container */}
               <div className="relative h-[400px] md:h-[500px] lg:h-[600px] w-full z-10">
-                <MapLeaflet onLocationSelect={handleLocation} />
+                <MapLeaflet
+                  onLocationSelect={handleLocation}
+                  selectedLocation={selectedLocation}
+                />
               </div>
             </div>
           </section>
@@ -79,17 +88,17 @@ export default function HomePage() {
           {/* ================= REPORT SECTION ================= */}
           <section className="lg:col-span-5 h-full">
             <div className="lg:sticky lg:top-24 bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-200 flex flex-col h-[500px] lg:h-[735px] overflow-hidden">
-              
+
               <div className="p-4 border-b border-slate-50 flex justify-between items-center bg-slate-50/50">
-                 <h3 className="font-bold text-slate-700 text-sm">Location Analysis</h3>
-                 {data && (
-                   <button 
-                     onClick={() => window.print()} 
-                     className="text-xs font-medium text-blue-600 hover:text-blue-700 transition"
-                   >
-                     Export PDF
-                   </button>
-                 )}
+                <h3 className="font-bold text-slate-700 text-sm">Location Analysis</h3>
+                {data && (
+                  <button
+                    onClick={() => window.print()}
+                    className="text-xs font-medium text-blue-600 hover:text-blue-700 transition"
+                  >
+                    Export PDF
+                  </button>
+                )}
               </div>
 
               <div className="flex-1 overflow-y-auto custom-scrollbar">
