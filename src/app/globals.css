@@ -42,3 +42,27 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background-color: #94a3b8;
 }
+
+@media print {
+  /* Hide the map and header during print if you only want the report */
+  header, .leaflet-container, .LocationSearch-container {
+    display: none !important;
+  }
+
+  /* Reset the scrollable container so it expands to full height */
+  .custom-scrollbar, 
+  section,
+  div {
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+    position: static !important;
+    display: block !important;
+  }
+
+  /* Remove shadows and borders to save ink and look professional */
+  .shadow-xl, .shadow-sm {
+    shadow: none !important;
+    border: none !important;
+  }
+}

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
+import dynamic from "next/dynamic";
 
 function ClickHandler({
   onClick,
@@ -16,7 +17,7 @@ function ClickHandler({
   return null;
 }
 
-export default function MapLeafletClient({
+function MapLeafletClient({
   onLocationSelect,
 }: {
   onLocationSelect: (lat: number, lng: number) => void;
@@ -60,3 +61,10 @@ export default function MapLeafletClient({
     </MapContainer>
   );
 }
+
+
+const MapLeaflet = dynamic(() => Promise.resolve(MapLeafletClient), {
+  ssr: false
+});
+
+export default MapLeaflet;

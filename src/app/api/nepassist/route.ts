@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import {env} from "@/src/utils/env"
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -22,7 +23,7 @@ export async function GET(req: Request) {
   });
 
   console.log('see parms>>>', params)
-  const url = `${process.env.NEPASSIST_BASE_URL}/nepaRESTbroker.aspx?${params}`;
+  const url = `${env.nepassistApiUrl}/nepaRESTbroker.aspx?${params}`;
 
   try {
     const response = await fetch(url, {
@@ -30,6 +31,9 @@ export async function GET(req: Request) {
     });
 
     const data = await response.json();
+
+    console.log('NEPAssist data fetched successfully', data);
+
     return NextResponse.json(data);
 
   } catch (err) {
@@ -41,3 +45,20 @@ export async function GET(req: Request) {
     );
   }
 }
+
+
+export async function POST(req: Request) {
+  const body = await req.json();
+
+  const res = await fetch(env.nepassistApiUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+
+  const data = await res.json();
+  return NextResponse.json(data);
+}
+
