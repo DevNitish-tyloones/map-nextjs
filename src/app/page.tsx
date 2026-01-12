@@ -8,10 +8,10 @@ import { LocationSearch } from "../components/Search/LocationSearch";
 export default function HomePage() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState<{
-    lat: number;
-    lng: number;
-  } | null>(null);
+  const [selectedLocation, setSelectedLocation] = useState<
+    { lat: number; lng: number } | undefined
+  >(undefined);
+
 
 
   const handleLocation = async (lat: number, lng: number) => {
